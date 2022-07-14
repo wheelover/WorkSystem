@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <link rel="stylesheet" href="/css/index.css"/>
+    <title>工地扬尘防治</title>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=wRR4kd5uau9MeTUiHcehSgrl5nrn4HKO&s=1"></script>
+    <script type="text/javascript" src="/js/lushu.js"></script>
+    <script type="text/javascript" src="/js/bmap.js"></script>
+    <script type="text/javascript" src="/js/js722.js"></script>
+    <script type="text/javascript" src="/js/bubble.js"></script>
+
+</head>
+
+<body>
+<div class="total">
+    <div class="title">
+        工地扬尘控制终端
+    </div>
+    <div class="main">
+        <div class="mainItem">
+            <div class="control">
+                <a href="/location"><button>区域划定</button></a>
+                <ul class="controlList">
+                    <li class="controlItem">
+                        <span>区域1水阀</span>
+                        <button>ON</button>
+                        <button>OFF</button>
+                    </li>
+                    <li class="controlItem">
+                        <span>区域2水阀</span>
+                        <button>ON</button>
+                        <button>OFF</button>
+                    </li>
+                    <li class="controlItem">
+                        <span>区域3水阀</span>
+                        <button>ON</button>
+                        <button>OFF</button>
+                    </li>
+                    <li class="controlItem">
+                        <span>区域4水阀</span>
+                        <button>ON</button>
+                        <button>OFF</button>
+                    </li>
+                </ul>
+            </div>
+            <div id="map_canvas" class="map"></div>
+            <div class="data">
+                <span>温度：</span>
+                <span>湿度：</span>
+                <span>区域1扬尘：</span>
+                <span>区域2扬尘：</span>
+                <span>区域3扬尘：</span>
+                <span>区域4扬尘：</span>
+            </div>
+        </div>
+        <canvas width="1500" height="200"></canvas>
+    </div>
+</div>
+
+
+<script>
+    var convertor = Convertor;
+    var points=aaa;
+    var map = new BMap.Map('map_canvas');
+    map.enableScrollWheelZoom();
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 13);
+    var lushu;
+    // 实例化一个驾车导航用来生成路线
+    var arrPois = [];
+     for(var i = 0 ;i< points.length;i++){
+//         var lng = 123.40+Math.random()/100;
+//         var lat = 41.74+Math.random()/100;
+         var lng =points[i].lng;
+         var lat =points[i].lat;
+//         var r=convertor.prototype.WGS2BD09({lng:+points[i].lng, lat:+points[i].lat})
+//         var lng =r.lng;
+//         var lat =r.lat;
+         arrPois.push(new BMap.Point(lng,lat));
+       }
+                map.addOverlay(new BMap.Polyline(arrPois, {strokeColor: '#111'}));
+                map.setViewport(arrPois);
+                lushu = new BMapLib.LuShu(map,arrPois,{
+                    defaultContent:"",
+                    autoView:true,//是否开启自动视野调整，如果开启那么路书在运动过程中会根据视野自动调整
+                    icon  : new BMap.Icon("/images/car_east.png", new BMap.Size(63, 63)),
+                    speed: 4500,
+                    enableRotation:true,//是否设置marker随着道路的走向进行旋转
+                    landmarkPois: []});
+
+
+
+</script>
+
+</body>
+
+</html>

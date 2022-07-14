@@ -1,0 +1,134 @@
+@charset "UTF-8"
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    body{
+        background: url(/images/bg3.png) no-repeat;
+    }
+
+    .total{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+    }
+
+    .title{
+        color: #009ee0;
+        font-size: 80px;
+        line-height: 0.8;
+        font-weight: bold;
+        letter-spacing: 5px;
+        font-family: "PingFang SC";
+        margin-bottom: 50px;
+    }
+
+    .mainItem{
+        display: flex;
+        align-items: center;
+    }
+
+    .control{
+        margin-left: 70px;
+    }
+
+    .control li{
+        margin-bottom: 10px;
+    }
+
+    .map{
+        height: 500px;
+        width: 1000px;
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 10%;
+    }
+
+    .data{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .data span{
+        margin-bottom: 5px;
+        color: white;
+        line-height: 1.5;
+        font-size: 15px;
+    }
+
+    .controlItem span{
+        color: white;
+        line-height: 1.5;
+         font-size: 15px;
+    }
+
+
+
+
+
+/* 隐藏百度地图logo */
+			.anchorBL {
+				display: none;
+			}
+
+			.btn-contrail button {
+				margin-bottom: 30px;
+				margin-left: 0px!important;
+				background-color: #FFFFFF;
+				color: rgba(0, 0, 0, .5);
+				padding: 10px;
+			}
+
+			.layui-btn:hover {
+				background-color: #1890ff!important;
+				color: #FFFFFF!important;
+			}
+
+			.btn-click {
+				background-color: #1890ff!important;
+				color: #FFFFFF!important;
+			}
+
+			.BMapLib_Drawing {
+				position: absolute!important;
+				right: 150px!important;
+				display: none;
+			}
+			/* 隐藏工具栏 */
+			.BMapLib_marker {
+				display: none;
+			}
+
+
+
+
+
+
+
+
