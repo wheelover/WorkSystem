@@ -2,9 +2,18 @@ package buildsite.model;
 
 public class Environment {
 
+    private String id;
     private String temperature;
     private String humidity;
     private String smoke;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTemperature() {
         return temperature;
