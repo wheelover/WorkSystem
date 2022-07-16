@@ -1,20 +1,29 @@
 package buildsite.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class MapData {
 
     private Environment environment;
     private Water water;
     private String id;
-    private List<String> points;
+    private List<Map<String, String>> points;
     private String radius;
 
-    public List<String> getPoints() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<Map<String, String>> getPoints() {
         return points;
     }
 
-    public void setPoints(List<String> points) {
+    public void setPoints(List<Map<String, String>> points) {
         this.points = points;
     }
 
@@ -42,12 +51,5 @@ public class MapData {
         this.water = water;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
 }
