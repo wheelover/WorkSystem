@@ -222,16 +222,16 @@ for(var i = 0; i < overlays.length; i++){
     function circleData(lng, lat, radius){
 
         const data = JSON.stringify({
-            lng: lng;
-            lat: lat;
-            radius: radius;
+            lng: lng,
+            lat: lat,
+            radius: radius
         });
 
         fetch('/saveCircle',
         {
             method: 'POST',
             body: data
-        }
+        })
     }
 </script>
 
