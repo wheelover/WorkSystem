@@ -8,8 +8,16 @@ public class MapData {
     private Environment environment;
     private Water water;
     private String id;
-    private List<Map<String, String>> points;
+    private List<Point> points;
     private String radius;
+
+    public List<Point> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<Point> points) {
+        this.points = points;
+    }
 
     public String getId() {
         return id;
@@ -19,13 +27,6 @@ public class MapData {
         this.id = id;
     }
 
-    public List<Map<String, String>> getPoints() {
-        return points;
-    }
-
-    public void setPoints(List<Map<String, String>> points) {
-        this.points = points;
-    }
 
     public String getRadius() {
         return radius;

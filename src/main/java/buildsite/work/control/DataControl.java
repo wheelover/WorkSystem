@@ -1,6 +1,7 @@
 package buildsite.work.control;
 
 import buildsite.model.MapData;
+import buildsite.model.Point;
 import buildsite.service.impl.MapServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class DataControl {
 
         LOG.info("数据上传调用");
         Map returnData = new HashMap();
-        Map<String, String> point = new HashMap<>();
+        Point point = new Point();
 
         String lng = new String();
         String lat = new String();
@@ -58,10 +59,13 @@ public class DataControl {
         System.out.println("数据：" + lng + lat + radius);
 
         if (lng != null && lat != null && radius != null) {
-            point.put(lng, lat);
+            point.setLat(lat);
+            point.setLng(lng);
             MapData mapData = new MapData();
 
-            List<Map<String, String>> points = new ArrayList<>();
+            System.out.println("point=" + point.getLng() + "," + point.getLat());
+
+            List<Point> points = new ArrayList<>();
             points.add(point);
             mapData.setId(id);
             mapData.setPoints(points);
