@@ -7,10 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -40,14 +37,11 @@ public class DataControl {
     }
 
     @PostMapping("/saveCircle")
-    @ResponseBody
-    private Map saveCircle(Map<String, Double> data){
+    private Map saveCircle(@RequestBody Map<String, Object> data){
 
         LOG.info("数据上传调用");
         Map returnData = new HashMap();
         Map<String, String> point = new HashMap<>();
-
-        System.out.println(data);
 
         String lng = new String();
         String lat = new String();
