@@ -41,11 +41,28 @@ public class DataControl {
 
     @PostMapping("/saveCircle")
     @ResponseBody
-    private Map saveCircle(@RequestParam String lng, @RequestParam String lat, @RequestParam String radius, HttpServletRequest request, HttpServletResponse response){
+    private Map saveCircle(Map<String, Double> data){
 
         LOG.info("数据上传调用");
         Map returnData = new HashMap();
         Map<String, String> point = new HashMap<>();
+
+        System.out.println(data);
+
+        String lng = new String();
+        String lat = new String();
+        String radius = new String();
+
+        try {
+            lng = data.get("lng").toString();
+            lat = data.get("lat").toString();
+            radius = data.get("radius").toString();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        System.out.println("数据：" + lng + lat + radius);
+
         if (lng != null && lat != null && radius != null) {
             point.put(lng, lat);
             MapData mapData = new MapData();
