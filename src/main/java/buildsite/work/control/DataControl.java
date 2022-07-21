@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,15 +32,17 @@ public class DataControl {
     @PostConstruct
     public void init(){
         LOG.info("DataControl 启动啦");
+        List<MapData> mapDataList = mapService.getAll();
+        for (MapData mapData : mapDataList){
+            mapService.delete(mapData.getId());
+        }
         LOG.info("DataControl 注入啦");
     }
 
     @PostMapping("/saveCircle")
+    @ResponseBody
     private Map saveCircle(@RequestBody Map<String, Object> data){
-
-        LOG.info("数据上传调用");
         Map returnData = new HashMap();
-        Point point = new Point();
 
         String lng = new String();
         String lat = new String();
@@ -56,23 +56,26 @@ public class DataControl {
             System.out.println(e);
         }
 
-        System.out.println("数据：" + lng + lat + radius);
+        LOG.info("数据：" + "lng: " +lng + " lat: " + lat + " radius: " +radius);
 
         if (lng != null && lat != null && radius != null) {
+            Point point = new Point();
+            MapData mapData = new MapData();
+            List<Point> points = new ArrayList<>();
+
             point.setLat(lat);
             point.setLng(lng);
-            MapData mapData = new MapData();
 
-            System.out.println("point=" + point.getLng() + "," + point.getLat());
+            int intId = Integer.parseInt(id);
+            id = Integer.toString(intId + 1);
 
-            List<Point> points = new ArrayList<>();
             points.add(point);
             mapData.setId(id);
             mapData.setPoints(points);
             mapData.setRadius(radius);
-            mongoTemplate.insert(mapData);
-            id = id + 1;
-            LOG.info("data put success");
+            mapService.add(mapData);
+
+            LOG.info("data put success / id = " + id);
 
             returnData.put("result", true);
             returnData.put("message", "data push successful");
@@ -88,7 +91,18 @@ public class DataControl {
 
     @PostMapping("/savaPoints")
     @ResponseBody
-    private void savePoints(String lng, String lat){
+    private Map savePoints(@RequestBody Map<String, Object> data){
+
+        Map returnData = new HashMap();
+        return returnData;
+
+    }
+
+    @GetMapping("/getData")
+    private MapData getData(@RequestParam(name = "id")String id){
+
+        MapData mapData = mapService.get(id);
+        return mapData;
 
     }
 

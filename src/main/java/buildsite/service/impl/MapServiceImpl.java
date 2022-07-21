@@ -14,6 +14,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -42,6 +44,12 @@ public class MapServiceImpl implements MapService {
         }
         MapData mapData = mongoTemplate.findById(id, MapData.class);
         return mapData;
+    }
+
+    @Override
+    public List<MapData> getAll() {
+        List<MapData> mapDataList = mongoTemplate.findAll(MapData.class);
+        return mapDataList;
     }
 
     @Override
