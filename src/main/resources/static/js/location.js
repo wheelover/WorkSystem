@@ -93,6 +93,7 @@
 
 
 clearIcon.addEventListener('click', function(){
+console.log("click");
 for(var i = 0; i < overlays.length; i++){
             map.removeOverlay(overlays[i]);
         }
