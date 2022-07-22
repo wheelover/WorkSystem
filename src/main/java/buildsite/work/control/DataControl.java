@@ -34,7 +34,7 @@ public class DataControl {
         LOG.info("DataControl 启动啦");
         List<MapData> mapDataList = mapService.getAll();
         for (MapData mapData : mapDataList){
-            mapService.delete(mapData.getId());
+          //  mapService.delete(mapData.getId());
         }
         LOG.info("DataControl 注入啦");
     }
@@ -99,6 +99,7 @@ public class DataControl {
     }
 
     @GetMapping("/getData")
+    @ResponseBody
     private MapData getData(@RequestParam(name = "id")String id){
 
         MapData mapData = mapService.get(id);

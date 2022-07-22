@@ -1,4 +1,4 @@
-const clearIcon = document.querySelector('.clear');
+    const clearIcon = document.querySelector('.clear');
 // 百度地图API功能
     var map = new BMap.Map('map');
     var poi = new BMap.Point(118.937284,32.119823);
@@ -48,6 +48,8 @@ const clearIcon = document.querySelector('.clear');
         if (e.drawingMode == BMAP_DRAWING_CIRCLE) {
             result += ' 半径：' + e.overlay.getRadius();
             result += ' 中心点：' + e.overlay.getCenter().lng + "," + e.overlay.getCenter().lat;
+            console.log("0");
+            circleData(e.overlay.getCenter().lng, e.overlay.getCenter().lat, e.overlay.getRadius());
         }
         if (e.drawingMode == BMAP_DRAWING_POLYLINE || e.drawingMode == BMAP_DRAWING_POLYGON || e.drawingMode == BMAP_DRAWING_RECTANGLE) {
             result += ' 所画的点个数：' + e.overlay.getPath().length;
@@ -91,7 +93,6 @@ const clearIcon = document.querySelector('.clear');
 
 
 clearIcon.addEventListener('click', function(){
-console.log("click");
 for(var i = 0; i < overlays.length; i++){
             map.removeOverlay(overlays[i]);
         }
@@ -119,6 +120,36 @@ for(var i = 0; i < overlays.length; i++){
     }
 
     //上传画圈的数据
-    function circleData(lag, lat, radius){
+    function circleData(lng, lat, radius){
 
+
+        const data = JSON.stringify({
+            lng,
+            lat,
+            radius
+        });
+
+        console.log(data);
+        // 实例化一个Request实例
+// 第一个参数一般指资源路径
+// 第二个参数可以理解为请求的配置项，包含头部信息和http请求一些关键配置（请求类型、参数...）
+let requestInstance = new Request('/saveCircle', {
+    method: 'post',
+    headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: data
+})
+// fetch方法参数同Request实例
+// 第一个参数为url或者Request实例
+// 第二个参数为请求配置项
+fetch(requestInstance).then(response => {
+    // 返回的是一个Response的实例
+    // 调用Response实例的序列化方法，序列化成json,返回值是一个promise
+    // 序列化方法有 json,text,formData,blob,arrayBuffer,redirct
+    let result = response.json()
+    result.then(res => {
+        console.log(res)
+    })
+})
     }

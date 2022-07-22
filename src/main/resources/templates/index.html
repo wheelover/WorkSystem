@@ -23,7 +23,7 @@
     <div class="main">
         <div class="mainItem">
             <div class="control">
-                <a href="/location"><button>区域划定</button></a>
+                <a class="change" href="/location"><button>区域划定</button></a>
                 <ul class="controlList">
                     <li class="controlItem">
                         <span>区域1水阀</span>
@@ -46,7 +46,7 @@
                         <button>OFF</button>
                     </li>
                 </ul>
-                <input placeholder="输入工地的序号" type="text">
+                <input class="input" placeholder="输入工地的序号" type="text">
             </div>
             <div id="map_canvas" class="map"></div>
             <div class="data">
@@ -92,10 +92,8 @@
                     enableRotation:true,//是否设置marker随着道路的走向进行旋转
                     landmarkPois: []});
 
-
-
 </script>
-
+<script src="/js/index.js"></script>
 </body>
 
 </html>
