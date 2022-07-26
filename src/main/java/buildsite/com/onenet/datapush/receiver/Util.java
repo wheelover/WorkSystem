@@ -1,4 +1,4 @@
-package com.onenet.datapush.receiver;
+package buildsite.com.onenet.datapush.receiver;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;

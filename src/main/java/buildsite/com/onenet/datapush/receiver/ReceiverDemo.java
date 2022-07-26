@@ -1,4 +1,4 @@
-package com.onenet.datapush.receiver;
+package buildsite.com.onenet.datapush.receiver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -28,6 +29,12 @@ public class ReceiverDemo {
     private static String aeskey ="tT9komC0ihozLxUpu+Tmprp+ksN118UWuC1ywzV+Lfw=";//aeskey和OneNet第三方平台配置里的token一致
 
     private static Logger logger = LoggerFactory.getLogger(ReceiverDemo.class);
+
+    @PostConstruct
+    public void init(){
+        logger.info("onenet平台数据传输启动啦");
+        logger.info("onenet平台数据传输注入啦");
+    }
     /**
      * 功能描述：第三方平台数据接收。<p>
      *           <ul>注:
@@ -43,15 +50,16 @@ public class ReceiverDemo {
     public String receive(@RequestBody String body) throws NoSuchPaddingException, InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
 
         logger.info("data receive:  body String --- " +body);
+        logger.info("receive 执行辣！");
         /************************************************
          *  解析数据推送请求，非加密模式。
          *  如果是明文模式使用以下代码
          **************************************************/
         /*************明文模式  start****************/
-        Util.BodyObj obj = Util.resolveBody(body, false);
+        buildsite.com.onenet.datapush.receiver.Util.BodyObj obj = buildsite.com.onenet.datapush.receiver.Util.resolveBody(body, false);
         logger.info("data receive:  body Object --- " +obj);
         if (obj != null){
-            boolean dataRight = Util.checkSignature(obj, token);
+            boolean dataRight = buildsite.com.onenet.datapush.receiver.Util.checkSignature(obj, token);
             if (dataRight){
                 logger.info("data receive: content" + obj.toString());
             }else {
@@ -102,7 +110,7 @@ public class ReceiverDemo {
                         @RequestParam(value = "signature") String signature) throws UnsupportedEncodingException {
 
         logger.info("url&token check: msg:{} nonce{} signature:{}",msg,nonce,signature);
-        if (Util.checkToken(msg,nonce,signature,token)){
+        if (buildsite.com.onenet.datapush.receiver.Util.checkToken(msg,nonce,signature,token)){
             return msg;
         }else {
             return "error";
@@ -110,7 +118,5 @@ public class ReceiverDemo {
 
     }
 
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(ReceiverDemo.class, args);
-    }
+
 }
