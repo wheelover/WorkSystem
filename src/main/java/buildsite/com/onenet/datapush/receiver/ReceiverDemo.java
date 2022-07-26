@@ -110,11 +110,9 @@ public class ReceiverDemo {
                         @RequestParam(value = "signature") String signature) throws UnsupportedEncodingException {
 
         logger.info("url&token check: msg:{} nonce{} signature:{}",msg,nonce,signature);
-        if (buildsite.com.onenet.datapush.receiver.Util.checkToken(msg,nonce,signature,token)){
+
             return msg;
-        }else {
-            return "error";
-        }
+
 
     }
 
