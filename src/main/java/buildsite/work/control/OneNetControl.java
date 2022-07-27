@@ -57,7 +57,7 @@ public class OneNetControl {
          */
         SendCmdsApi api = new SendCmdsApi(devId, null, null, null, text, key);
         BasicResponse<NewCmdsResponse> response = api.executeApi();
-        System.out.println(response.getJson());
+        LOG.info(response.getJson());
     }
 
 }
