@@ -107,6 +107,7 @@
 			}
 			function getPoint() {
 				$("resultShape").innerHTML = '';
+				console.log(overlays);
 				for (var i = 0; i < overlays.length; i++) {
 					var overlay = overlays[i].getPath();
 					$("resultShape").innerHTML = $("resultShape").innerHTML + overlay.length + '边形:<br/>';

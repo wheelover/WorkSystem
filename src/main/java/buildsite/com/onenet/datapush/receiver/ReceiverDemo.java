@@ -1,5 +1,6 @@
 package buildsite.com.onenet.datapush.receiver;
 
+import buildsite.model.MapData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -15,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 /**
  * 数据接收程序接口类
@@ -49,8 +51,8 @@ public class ReceiverDemo {
     @ResponseBody
     public String receive(@RequestBody String body) throws NoSuchPaddingException, InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
 
-        logger.info("data receive:  body String --- " +body);
         logger.info("receive 执行辣！");
+        logger.info("data receive:  body String --- " +body);
         /************************************************
          *  解析数据推送请求，非加密模式。
          *  如果是明文模式使用以下代码
@@ -58,6 +60,12 @@ public class ReceiverDemo {
         /*************明文模式  start****************/
         buildsite.com.onenet.datapush.receiver.Util.BodyObj obj = buildsite.com.onenet.datapush.receiver.Util.resolveBody(body, false);
         logger.info("data receive:  body Object --- " +obj);
+
+        Map msgData = (Map) obj.getMsg();
+        String dataName = (String) msgData.get("ds_id");
+        String value = (String) msgData.get("value");
+        logger.info("数据名称是：" + dataName + "  数据的值是：" + value);
+
         if (obj != null){
             boolean dataRight = buildsite.com.onenet.datapush.receiver.Util.checkSignature(obj, token);
             if (dataRight){

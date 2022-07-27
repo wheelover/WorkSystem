@@ -3,6 +3,7 @@ package buildsite.work.control;
 import buildsite.model.MapData;
 import buildsite.model.Point;
 import buildsite.service.impl.MapServiceImpl;
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class DataControl {
         LOG.info("DataControl 启动啦");
         List<MapData> mapDataList = mapService.getAll();
         for (MapData mapData : mapDataList){
-          //  mapService.delete(mapData.getId());
+         // mapService.delete(mapData.getId());
         }
         LOG.info("DataControl 注入啦");
     }
@@ -75,7 +76,7 @@ public class DataControl {
             mapData.setRadius(radius);
             mapService.add(mapData);
 
-            LOG.info("data put success / id = " + id);
+            LOG.info("circleData put success / id = " + id);
 
             returnData.put("result", true);
             returnData.put("message", "data push successful");
@@ -92,9 +93,54 @@ public class DataControl {
     @PostMapping("/savaPoints")
     @ResponseBody
     private Map savePoints(@RequestBody Map<String, Object> data){
-
         Map returnData = new HashMap();
-        return returnData;
+
+
+        List<String> lngList = new ArrayList<>();
+        List<String> latList = new ArrayList<>();
+
+        try {
+            String lngData = JSON.toJSONString(data.get("lngs"));
+            String latData = JSON.toJSONString(data.get("lats"));
+            lngList = JSON.parseObject(lngData, List.class);
+            latList = JSON.parseObject(latData, List.class);
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        LOG.info("the first lng data is " + lngList.get(0));
+        LOG.info("The first lat data is " + latList.get(0));
+
+         if (lngList != null && latList != null){
+             MapData mapData = new MapData();
+             List<Point> points = new ArrayList<>();
+
+             for (int i = 0; i < lngList.size(); i++){
+                 Point point = new Point();
+                 point.setLng(lngList.get(i));
+                 point.setLat(latList.get(i));
+                 points.add(point);
+             }
+
+             int intId = Integer.parseInt(id);
+             id = Integer.toString(intId + 1);
+
+             mapData.setId(id);
+             mapData.setPoints(points);
+             mapData.setRadius(null);
+             mapService.add(mapData);
+
+             LOG.info("pointsData put success / id = " + id);
+             returnData.put("result", true);
+             returnData.put("message", "data push successful");
+             return returnData;
+         }else {
+             returnData.put("result", false);
+             returnData.put("message", "data push not correct");
+             LOG.error("data push false");
+             return returnData;
+         }
 
     }
 

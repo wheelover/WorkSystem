@@ -150,7 +150,10 @@ li{
             circleData(e.overlay.getCenter().lng, e.overlay.getCenter().lat, e.overlay.getRadius());
         }
         if (e.drawingMode == BMAP_DRAWING_POLYLINE || e.drawingMode == BMAP_DRAWING_POLYGON || e.drawingMode == BMAP_DRAWING_RECTANGLE) {
+
             result += ' 所画的点个数：' + e.overlay.getPath().length;
+            pointData(e.overlay);
+
         }
         result += "</p>";
         $("showOverlayInfo").style.display = "none";
@@ -253,7 +256,49 @@ fetch(requestInstance).then(response => {
 })
     }
 
-    function pointData(lng, lat, radius){
+    function pointData(overlays){
+
+        let lngs = [];
+        let lats = [];
+
+        console.log(overlays);
+		var overlay = overlays.getPath();
+		console.log("overlay的内容是：" + overlay);
+		for (var j = 0; j < overlay.length; j++) {
+			var grid = overlay[j];
+			console.log("lng: " + grid.lng + "  lat: " + grid.lat);
+			lngs.push(grid.lng.toString());
+			lats.push(grid.lat.toString());
+		}
+
+		const data = JSON.stringify({
+            lngs,
+            lats
+        });
+        console.log(data);
+
+        // 实例化一个Request实例
+        // 第一个参数一般指资源路径
+        // 第二个参数可以理解为请求的配置项，包含头部信息和http请求一些关键配置（请求类型、参数...）
+        let requestInstance = new Request('/savaPoints', {
+            method: 'post',
+            headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+             body: data
+         })
+        // fetch方法参数同Request实例
+        // 第一个参数为url或者Request实例
+        // 第二个参数为请求配置项
+        fetch(requestInstance).then(response => {
+            // 返回的是一个Response的实例
+            // 调用Response实例的序列化方法，序列化成json,返回值是一个promise
+            // 序列化方法有 json,text,formData,blob,arrayBuffer,redirct
+            let result = response.json()
+            result.then(res => {
+                console.log(res)
+            })
+        })
 
     }
 

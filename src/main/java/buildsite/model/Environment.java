@@ -4,6 +4,7 @@ public class Environment {
 
     private String id;
     private String temperature;
+    //湿度
     private String humidity;
     private String smoke;
 
