@@ -44,7 +44,7 @@ public class UserControl {
     @PostMapping("/authenticate")
     @ResponseBody
     public Map login(String name, String password, HttpServletRequest request,
-                     HttpServletResponse response){
+                     HttpServletResponse response)throws Exception{
         Map returnData = new HashMap();
         // 根据登录名查询用户
         User regedUser = getUserByLoginName(name);
@@ -69,7 +69,14 @@ public class UserControl {
         } else {
             returnData.put("result", false);
             returnData.put("message", "userName or password not correct");
+            return returnData;
         }
+
+
+
+        // 跳转登录
+        String url = "/index";
+        response.sendRedirect(url);
 
         return returnData;
 

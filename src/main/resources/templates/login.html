@@ -8,9 +8,9 @@
 <body>
     <div class="login">
         <h1>Login</h1>
-        <form action="">
-            <input type="text" placeholder="账号">
-            <input type="password" placeholder="密码">
+        <form action="/authenticate" method="post">
+            <input type="text" placeholder="账号" name="name">
+            <input type="password" placeholder="密码" name="password">
             <button id="login">登录</button>
         </form>
     </div>
