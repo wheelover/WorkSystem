@@ -37,4 +37,9 @@ public class MainControl {
         return "location";
     }
 
+    @GetMapping("/login")
+    private String login(Model model){
+        return "login";
+    }
+
 }
