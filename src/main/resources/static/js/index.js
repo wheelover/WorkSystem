@@ -1,4 +1,6 @@
 const input = document.querySelector('.input');
+const open = document.querySelector('.open');
+const close = document.querySelector('.close');
 
 input.addEventListener('change', function(){
     if(this.value == null){
@@ -13,6 +15,8 @@ input.addEventListener('change', function(){
         if(!body){
             return;
         }
+
+
 
         if(body.radius != null){
             let radius = body.radius;
@@ -52,6 +56,32 @@ input.addEventListener('change', function(){
 
         }
       });
+
+})
+
+
+
+open.addEventListener("click", function(){
+
+    console.log("control open");
+
+    fetch('/pushOrder-open')
+           .then(function(response) {
+            return null
+           });
+
+
+})
+
+close.addEventListener("click", function(){
+
+    console.log("control close");
+
+    fetch('/pushOrder-close')
+           .then(function(response) {
+            return null
+           });
+
 
 })
 

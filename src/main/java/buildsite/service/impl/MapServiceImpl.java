@@ -70,8 +70,6 @@ public class MapServiceImpl implements MapService {
             updateData.set("radius", mapData.getRadius());
         }
 
-
-
         if (mapData.getEnvironment() != null){
             updateData.set("environment", mapData.getEnvironment());
         }

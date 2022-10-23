@@ -1,9 +1,13 @@
 package buildsite.com.onenet.datapush.receiver;
 
+import buildsite.model.Environment;
 import buildsite.model.MapData;
+import buildsite.service.impl.MapServiceImpl;
+import buildsite.util.EnvironmentUtil;
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +35,9 @@ public class ReceiverDemo {
     private static String aeskey ="tT9komC0ihozLxUpu+Tmprp+ksN118UWuC1ywzV+Lfw=";//aeskey和OneNet第三方平台配置里的token一致
 
     private static Logger logger = LoggerFactory.getLogger(ReceiverDemo.class);
+
+    @Autowired
+    private MapServiceImpl mapService;
 
     @PostConstruct
     public void init(){
@@ -61,10 +68,20 @@ public class ReceiverDemo {
         buildsite.com.onenet.datapush.receiver.Util.BodyObj obj = buildsite.com.onenet.datapush.receiver.Util.resolveBody(body, false);
         logger.info("data receive:  body Object --- " +obj);
 
-        Map msgData = (Map) obj.getMsg();
+        Map dataObj = null;
+
+        try{
+            dataObj = JSON.parseObject(body, Map.class);
+        }catch (Exception e){
+            logger.error("parse body to map error. ", e);
+        }
+
+        Map msgData = (Map) dataObj.get("msg");
+
         String dataName = (String) msgData.get("ds_id");
-        String value = (String) msgData.get("value");
+        Integer value = (Integer) msgData.get("value");
         logger.info("数据名称是：" + dataName + "  数据的值是：" + value);
+        buildMapData(dataName, value);
 
         if (obj != null){
             boolean dataRight = buildsite.com.onenet.datapush.receiver.Util.checkSignature(obj, token);
@@ -124,5 +141,46 @@ public class ReceiverDemo {
 
     }
 
+    private void buildMapData(String dataName, Integer valueInteger) {
+        MapData mapData = new MapData();
+        mapData.setId("815");
 
+        MapData originData = mapService.get("815");
+
+        String value = null;
+
+        if (dataName != null && valueInteger != null) {
+            Environment environment = new Environment();
+            if (dataName.equals(EnvironmentUtil.TYPE_HUMIDITY)) {
+                value = String.valueOf(valueInteger);
+                environment.setHumidity(value);
+                environment.setTemperature(originData.getEnvironment().getTemperature());
+                environment.setSmoke(originData.getEnvironment().getSmoke());
+                environment.setLightIntensity(originData.getEnvironment().getLightIntensity());
+            } else if (dataName.equals(EnvironmentUtil.TYPE_LIGHTINTENSITY)) {
+                value = String.valueOf(valueInteger);
+                environment.setLightIntensity(value);
+                environment.setTemperature(originData.getEnvironment().getTemperature());
+                environment.setSmoke(originData.getEnvironment().getSmoke());
+                environment.setHumidity(originData.getEnvironment().getHumidity());
+            } else if (dataName.equals(EnvironmentUtil.TYPE_PM)) {
+                value = String.valueOf((double) valueInteger / 10000);
+                environment.setSmoke(value);
+                environment.setHumidity(originData.getEnvironment().getHumidity());
+                environment.setTemperature(originData.getEnvironment().getTemperature());
+                environment.setLightIntensity(originData.getEnvironment().getLightIntensity());
+            } else if (dataName.equals(EnvironmentUtil.TYPE_TEMPERATURE)) {
+                value = String.valueOf(valueInteger);
+                environment.setTemperature(value);
+                environment.setLightIntensity(originData.getEnvironment().getLightIntensity());
+                environment.setHumidity(originData.getEnvironment().getHumidity());
+                environment.setSmoke(originData.getEnvironment().getSmoke());
+            }
+
+            mapData.setEnvironment(environment);
+            mapService.modify(mapData);
+
+        }
+
+    }
 }

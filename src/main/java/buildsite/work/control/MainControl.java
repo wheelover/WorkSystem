@@ -2,8 +2,10 @@ package buildsite.work.control;
 
 
 import buildsite.model.MapData;
+import buildsite.service.impl.MapServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,9 @@ public class MainControl {
 
     private static final Logger LOG = LoggerFactory.getLogger(MainControl.class);
 
+    @Autowired
+    private MapServiceImpl mapService;
+
     @PostConstruct
     public void init(){
         LOG.info("MainControl 启动啦");
@@ -23,23 +28,26 @@ public class MainControl {
     }
 
     @GetMapping("/index")
-    private String index(Model model){
+    public String index(Model model){
+        setMapData(model);
         return "index";
     }
 
     @GetMapping("/layout")
-    private String layout(Model model){
+    public String layout(Model model){
         return "layout";
     }
 
     @GetMapping("/location")
-    private String location(Model model){
+    public String location(Model model){
         return "location";
     }
 
-    @GetMapping("/login")
-    private String login(Model model){
-        return "login";
+    private void setMapData(Model model){
+
+        MapData mapData = mapService.get("815");
+        model.addAttribute("mapData", mapData);
+
     }
 
 }

@@ -35,14 +35,14 @@ public class DataControl {
         LOG.info("DataControl 启动啦");
         List<MapData> mapDataList = mapService.getAll();
         for (MapData mapData : mapDataList){
-         // mapService.delete(mapData.getId());
+            mapService.delete(mapData.getId());
         }
         LOG.info("DataControl 注入啦");
     }
 
     @PostMapping("/saveCircle")
     @ResponseBody
-    private Map saveCircle(@RequestBody Map<String, Object> data){
+    public Map saveCircle(@RequestBody Map<String, Object> data){
         Map returnData = new HashMap();
 
         String lng = new String();
@@ -92,7 +92,7 @@ public class DataControl {
 
     @PostMapping("/savaPoints")
     @ResponseBody
-    private Map savePoints(@RequestBody Map<String, Object> data){
+    public Map savePoints(@RequestBody Map<String, Object> data){
         Map returnData = new HashMap();
 
 
@@ -146,11 +146,14 @@ public class DataControl {
 
     @GetMapping("/getData")
     @ResponseBody
-    private MapData getData(@RequestParam(name = "id")String id){
+    public MapData getData(@RequestParam(name = "id")String id){
 
         MapData mapData = mapService.get(id);
         return mapData;
 
     }
+
+
+
 
 }

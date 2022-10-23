@@ -27,8 +27,8 @@
                 <ul class="controlList">
                     <li class="controlItem">
                         <span>区域1水阀</span>
-                        <button>ON</button>
-                        <button>OFF</button>
+                        <button class="open">ON</button>
+                        <button class="close">OFF</button>
                     </li>
                     <li class="controlItem">
                         <span>区域2水阀</span>
@@ -50,9 +50,10 @@
             </div>
             <div id="map_canvas" class="map"></div>
             <div class="data">
-                <span>温度：</span>
-                <span>湿度：</span>
-                <span>区域1扬尘：</span>
+                <div><span>光强：</span><span th:text="${mapData.environment.lightIntensity}"></span></div>
+                <div><span>温度：</span><span th:text="${mapData.environment.temperature}"></span></div>
+                <div><span>湿度：</span><span th:text="${mapData.environment.humidity}"></span></div>
+                <div><span>区域1扬尘：</span><span th:text="${mapData.environment.smoke}"></span></div>
                 <span>区域2扬尘：</span>
                 <span>区域3扬尘：</span>
                 <span>区域4扬尘：</span>

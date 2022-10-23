@@ -7,6 +7,17 @@ public class Environment {
     //湿度
     private String humidity;
     private String smoke;
+    //光照
+    private String lightIntensity;
+
+
+    public String getLightIntensity() {
+        return lightIntensity;
+    }
+
+    public void setLightIntensity(String lightIntensity) {
+        this.lightIntensity = lightIntensity;
+    }
 
     public String getId() {
         return id;
