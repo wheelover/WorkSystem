@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
+<<<<<<< HEAD
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+=======
+>>>>>>> 34b1f1ecf740b9cab0d67aa2a19abdf213076793
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,14 +46,35 @@ public class UserControl {
         LOG.info("userService 注入啦");
     }
 
+<<<<<<< HEAD
+    @GetMapping("/login")
+    public String login(Model model){
+        return "login";
+    }
+
+    @GetMapping("/unlogin")
+    public String unlogin(Model model){
+        return "unlogin";
+    }
+
+    @PostMapping("/authenticate")
+    @ResponseBody
+    public Map authenticate(String name, String password, HttpServletRequest request,
+=======
     @PostMapping("/authenticate")
     @ResponseBody
     public Map login(String name, String password, HttpServletRequest request,
+>>>>>>> 34b1f1ecf740b9cab0d67aa2a19abdf213076793
                      HttpServletResponse response)throws Exception{
         Map returnData = new HashMap();
         // 根据登录名查询用户
         User regedUser = getUserByLoginName(name);
 
+<<<<<<< HEAD
+        LOG.info("检验登录");
+
+=======
+>>>>>>> 34b1f1ecf740b9cab0d67aa2a19abdf213076793
         // 找不到此登录用户
         if (regedUser == null) {
             returnData.put("result", false);
