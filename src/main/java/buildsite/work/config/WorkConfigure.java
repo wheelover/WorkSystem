@@ -19,11 +19,8 @@ public class WorkConfigure implements WebMvcConfigurer {
                 .excludePathPatterns("/getComment")
                 .excludePathPatterns("/css/**")           // 静态资源为文件不需要登录
                 .excludePathPatterns("/images/**")
-<<<<<<< HEAD
                 .excludePathPatterns("/authenticate")            // 系统错误页面不需要登录
-=======
                 .excludePathPatterns("/error")            // 系统错误页面不需要登录
->>>>>>> 34b1f1ecf740b9cab0d67aa2a19abdf213076793
                 .excludePathPatterns("/js/**");
 
     }
